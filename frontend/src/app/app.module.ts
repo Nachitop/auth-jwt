@@ -5,10 +5,13 @@ import { AppComponent } from './app.component';
 import { SigninComponent } from './signin/signin.component';
 import  {Routes,RouterModule} from '@angular/router';
 import { SignupComponent } from './signup/signup.component';
-import {FormsModule} from '@angular/forms';
+
 import {HttpModule} from '@angular/http'
 import { HttpClientModule } from '@angular/common/http';
 import { PruebaComponent } from './prueba/prueba.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import {ErrorKey} from '../custom-pipes/error';
 
 const routes:Routes=[
   {path:'signin', component:SigninComponent},
@@ -22,10 +25,11 @@ const routes:Routes=[
     AppComponent,
     SigninComponent,
     SignupComponent,
-    PruebaComponent
+    PruebaComponent,
+    ErrorKey
   ],
   imports: [
-    BrowserModule,HttpModule,HttpClientModule,FormsModule,RouterModule.forRoot(routes),
+    BrowserModule,HttpModule,HttpClientModule,FormsModule,ReactiveFormsModule,RouterModule.forRoot(routes),
   ],
   providers: [],
   bootstrap: [AppComponent]

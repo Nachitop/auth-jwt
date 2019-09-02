@@ -29,10 +29,10 @@ exports.signup = (req, res) => {
 				res.json({"message":"User registered successfully!"});
             });
 		}).catch(err => {
-			res.json("Error -> " + err);
+			res.json({"error":"Error -> " + err});
 		});
 	}).catch(err => {
-		res.json("Fail! Error -> " + err);
+		res.json({"error":"Fail! Error -> " + err});
 	})
 }
  
@@ -45,7 +45,7 @@ exports.signin = (req, res) => {
 		}
 	}).then(user => {
 		if (!user) {
-			return res.json({"message":'User Not Found.'});
+			return res.json({ auth: false, accessToken: null, reason: "User Not Found."});
 		}
  
 		var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
@@ -57,10 +57,10 @@ exports.signin = (req, res) => {
 		  expiresIn: 86400 // expires in 24 hours
 		});
 		
-		res.json({ auth: true, accessToken: token });
+		res.json({ auth: true, accessToken: token, reason:"" });
 		
 	}).catch(err => {
-		res.json('Error -> ' + err);
+		res.json({"error":'Error -> ' + err});
 	});
 }
  

@@ -10,7 +10,8 @@ import {Router} from '@angular/router';
 })
 export class SigninComponent implements OnInit {
 
-  auth:Auth
+  auth:Auth= new Auth(false,"","");
+  message_error: string="";
   constructor(private signinService:SigninService, private router:Router) { }
 
   ngOnInit() {
@@ -19,18 +20,23 @@ export class SigninComponent implements OnInit {
   onSubmit(form:NgForm){
 
    this.signinService.ingresa(form.value).subscribe(res=>{
-     console.log(res);
+    let resP = JSON.parse(JSON.stringify(res));
+
+      this.auth= resP as Auth;
+      if(this.auth.auth==true){
+       
+       localStorage.setItem('token', JSON.stringify(this.auth.accessToken));
+       console.log( localStorage.getItem('token'))
+       this.router.navigateByUrl("prueba");
+      }
+      else{
+        this.message_error=this.auth.reason;
+      }
+
+     
+ 
+   
     
-     this.auth= res as Auth;
-     if(this.auth.auth==true){
-      
-      localStorage.setItem('token', JSON.stringify(this.auth.accessToken));
-      console.log( localStorage.getItem('token'))
-      this.router.navigateByUrl("prueba");
-     }
-     else{
-       console.log("Usuario o contraseña no válido");
-     }
     
    });
   }
